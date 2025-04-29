@@ -1,6 +1,17 @@
 image: alpine:latest
 
+stages:
+  - validate
+  - deploy
+
+validate_html:
+  stage: validate
+  script:
+    - echo "Verificando se public/index.html existe..."
+    - test -f public/index.html || (echo "Erro: index.html não encontrado!" && exit 1)
+
 pages:
+  stage: deploy
   script:
     - mkdir .public
     - cp -r public/* .public
@@ -10,3 +21,4 @@ pages:
       - public
   only:
     - main
+
